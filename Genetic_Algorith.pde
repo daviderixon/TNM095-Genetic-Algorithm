@@ -64,12 +64,12 @@ void calculateAverages(){
   AverageEvilness = 0;
   
  for(Creature c : population){
-   AverageSize+= c.dna.Size;
-   AverageSpeed+= c.dna.Speed;
-   AverageViewDistance+= c.dna.ViewDistance;
-   AverageMaxTurnRate += c.dna.MaxTurnRate;
-   AverageFieldOfView += c.dna.FieldOfView;
-   AverageEvilness += c.dna.Evilness;
+   AverageSize+= c.dna.get("Size");
+   AverageSpeed+= c.dna.get("Speed");
+   AverageViewDistance+= c.dna.get("ViewDistance");
+   AverageMaxTurnRate += c.dna.get("MaxTurnRate");
+   AverageFieldOfView += c.dna.get("FieldOfView");
+   AverageEvilness += c.dna.get("Evilness");
  }
    AverageSize/= population.size();
    AverageSpeed/= population.size();

@@ -33,9 +33,13 @@ class OpenGraph{
     stroke(MainColor);
     textSize(16);
     textAlign(CENTER);
-    float delta = Data.get(Data.size() - 1)-Data.get(0);
+    if(Data.size() > 1){
+      float delta = Data.get(Data.size() - 1)-Data.get(Data.size() - 2);
+      text("Delta: " + delta, Position.x + GWidth/2, Position.y + OFFSET); 
+    }
+    
     text(Name, Position.x + GWidth/2, Position.y + OFFSET/2);
-    text("Delta: " + delta, Position.x + GWidth/2, Position.y + OFFSET); 
+    
     line(Position.x + OFFSET, Position.y + GHeight - OFFSET, Position.x + OFFSET, Position.y + OFFSET);
     line(Position.x + OFFSET, Position.y + GHeight - OFFSET, Position.x + GWidth-OFFSET, Position.y + GHeight - OFFSET);
     float xStep = (GWidth-2*OFFSET)/(Data.size()-1);

@@ -1,98 +1,57 @@
 class DNA{
+  
+  /*
+    Dna class illustrated with an array of genes
+    fieldName, minValue, maxValue, Value
+  */
   float fitness;
   float MutationRate;
   
-  float Size;
-  float Speed;
-  float FieldOfView;
-  float ViewDistance;
-  float MaxTurnRate;
-  float Evilness;
+  
+  ArrayList<Gene> Genes = new ArrayList<Gene>();
   DNA(float _mutateRate){
     MutationRate = _mutateRate;
-    Size = random(20,40);
-    Speed = random(80,120);
-    FieldOfView = random(PI/100, PI);
-    ViewDistance = random(20, 150);
-    MaxTurnRate = random(PI/12, PI);
-    if(random(1) < 0.01){
-      Evilness = 1.0; 
+    Genes.add(new Gene("Size", 20,40));
+    Genes.add(new Gene("Speed", 80,120));
+    Genes.add(new Gene("FieldOfView", PI/100,PI));
+    Genes.add(new Gene("ViewDistance", 20,150));
+    Genes.add(new Gene("MaxTurnRate", PI/12,PI));
+    Genes.add(new Gene("Evilness", 0.01));
+  }
+  void Add(Gene g){
+    Genes.add(g);
+  }
+  void Empty(){
+    Genes.clear();
+  }
+  Float get(String term){
+    for(Gene g : Genes){
+      if(g.fieldName == term){
+        return g.Value;  
+      }
     }
-    else{
-      Evilness = 0.0;
-    }
+    return null;
   }
   void Mutate(){
-    if(random(1) < MutationRate){
-      Size = random(20,40);
-      NUMBER_OF_MUTATION++;
-    }
-    if(random(1) < MutationRate){
-      Speed = random(80,120);
-      NUMBER_OF_MUTATION++;
-    }
-    if(random(1) < MutationRate){
-      FieldOfView = random(PI/100, PI);
-      NUMBER_OF_MUTATION++;
-    }
-    if(random(1) < MutationRate){
-      ViewDistance = random(20, 150);
-      NUMBER_OF_MUTATION++;
-    }
-    if(random(1) < MutationRate){
-      MaxTurnRate = random(PI/12, PI);
-      NUMBER_OF_MUTATION++;
-    }
-    if(random(1) < MutationRate){
-      if(random(1) < 0.01){
-        Evilness = 1.0; 
+    for(Gene g : Genes){
+      if(random(1) < MutationRate){
+        g.Mutate();
+        NUMBER_OF_MUTATION++;
+        
       }
-      else{
-        Evilness = 0.0;
-      }
-      NUMBER_OF_MUTATION++;
     }
   }
   DNA CrossOver(DNA Partner){
     DNA Child = new DNA(MutationRate);
-    if(random(1) < 0.5){
-      Child.Size = Size;
-    }
-    else{
-      Child.Size = Partner.Size;
-    }
-    if(random(1) < 0.5){
-      Child.Speed = Speed;
-    }
-    else{
-      Child.Speed = Partner.Speed;
-    }
-    if(random(1) < 0.5){
-      Child.FieldOfView = FieldOfView;
-    }
-    else{
-      Child.FieldOfView = Partner.FieldOfView;
-    }
-    if(random(1) < 0.5){
-      Child.ViewDistance = ViewDistance;
-    }
-    else{
-      Child.ViewDistance = Partner.ViewDistance;
-    }
-    if(random(1) < 0.5){
-      Child.MaxTurnRate = MaxTurnRate;
-    }
-    else{
-      Child.MaxTurnRate = Partner.MaxTurnRate;
-    }
-    if(random(1) < 0.5){
-      Child.Evilness = Evilness;
-    }
-    else{
-      Child.Evilness = Partner.Evilness;
+    Child.Empty();
+    for(int i = 0; i < Genes.size(); i++){
+      for(int j = 0; j < Partner.Genes.size(); j++){
+        if(Genes.get(i).fieldName == Partner.Genes.get(j).fieldName){
+          Child.Add(Genes.get(i).CrossOver(Partner.Genes.get(j)));
+        }
+      }
     }
     Child.Mutate();
-    
     return Child;
   }
   void Fitness(int f){
