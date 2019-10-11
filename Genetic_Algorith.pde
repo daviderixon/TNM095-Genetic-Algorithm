@@ -2,6 +2,8 @@ import java.util.*;
 Creature c;
 int MAX_FOODS = 200;
 int INITIAL_CREATURES = 15;
+Boolean EVIL_CAN_EAT_FOOD = false;
+Boolean SHOW_HELPERS = false;
 int NUMBER_OF_MUTATION = 0;
 float homeHeight = 70;
 float homeWidth = 70;
@@ -166,6 +168,12 @@ void draw(){
     if (key == 'h' || key == 'H') {
       if(coolDown < 0.0){
         drawingGraphs = !drawingGraphs;
+        coolDown = 0.5;
+      }
+    }
+    if (key == 'j' || key == 'J') {
+      if(coolDown < 0.0){
+        SHOW_HELPERS = !SHOW_HELPERS;
         coolDown = 0.5;
       }
     }
