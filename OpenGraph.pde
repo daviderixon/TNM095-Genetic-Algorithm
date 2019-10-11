@@ -24,6 +24,14 @@ class OpenGraph{
   void add(float f){
     Data.add(f);
   }
+  ArrayList<String> toStringArray(){
+   ArrayList<String> ret = new ArrayList<String>();
+   
+   for(float f : Data){
+     ret.add(f + "");
+   }
+   return ret;
+  }
   void draw(){
     fill(BackgroundColor);
     stroke(BackgroundColor);

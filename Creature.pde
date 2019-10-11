@@ -67,33 +67,12 @@ public class Creature{
     }
     return Foods;
   }
-  ArrayList<Creature> CreaturesInSight(ArrayList<Creature> pop){
-    ArrayList<Creature> CInSight = new ArrayList<Creature>();
-    PVector Temp = new PVector();
-    for(Creature c : pop){
-      Temp = c.Position.copy();
-      Temp.sub(Position);
-      if(Temp.mag() < viewDistance){
-        if(Temp.mag() < size && isEvil && c != this && !c.dead && !c.isEvil && c.FoodsEaten > 0){
-            c.die();
-            FoodsEaten += c.FoodsEaten;
-        }
-        Temp.normalize();
-        if(Temp.dot(Forward) > cos(fieldOfView/2) && !c.isEvil ){
-         CInSight.add(c);
-        }
-      }
-      
-    }
-    return CInSight;
-  }
-  
-  void draw(float dt, ArrayList<Food> List, ArrayList<Creature> pop){
+  void draw(float dt, ArrayList<Food> List, Population p){
     if(!dead){
       if(SHOW_HELPERS){
         MarkVisibleFoods(List);
       }
-      control(List, pop);
+      control(List, p);
       
       Forward.rotate(maxTurnRate * turnRate * dt);
       PVector Direction = new PVector(Forward.x,Forward.y).mult(speed * forwardRate * dt);
@@ -121,9 +100,9 @@ public class Creature{
   }
   
   // Controling the Creature.
-  void control(ArrayList<Food> List, ArrayList<Creature> pop){
+  void control(ArrayList<Food> List, Population pop){
     ArrayList<Food> Foods = AvailableFoods(List);
-    ArrayList<Creature> CreaturesInSight = CreaturesInSight(pop);
+    ArrayList<Creature> CreaturesInSight = pop.creaturesInSight(this);
     if(isEvil && CreaturesInSight.size() > 0){
       
       PVector Temp = new PVector();
@@ -222,4 +201,12 @@ public class Creature{
   }
 
    
+}
+public class CreatureComparator implements Comparator<Creature> {
+    @Override
+    public int compare(Creature o1, Creature o2) {
+        Integer fitness1 = (int)o1.dna.fitness;
+        Integer fitness2 = (int)o2.dna.fitness;
+        return fitness1.compareTo(fitness2);
+    }
 }

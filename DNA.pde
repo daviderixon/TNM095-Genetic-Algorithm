@@ -16,7 +16,7 @@ class DNA{
     Genes.add(new Gene("FieldOfView", PI/100,PI));
     Genes.add(new Gene("ViewDistance", 20,150));
     Genes.add(new Gene("MaxTurnRate", PI/12,PI));
-    Genes.add(new Gene("Evilness", 0.01));
+    Genes.add(new Gene("Evilness", 0.5));
   }
   void Add(Gene g){
     Genes.add(g);
